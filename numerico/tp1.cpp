@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 using namespace std;
 
 #define PADRON1 94950
@@ -59,6 +60,43 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	return it;
 }
 
+double norma(double *x, int n){
+	double suma = 0.0;
+	for(int i = 0; i < n; i++){
+		suma += (x[i] * x[i]);
+	}
+	return sqrt(suma);
+}
+
+int jacobi(double *a, double *x, double *b, int n, double rtol){
+	int it=0;
+	bool termino = false;
+	double *xAnterior = x;
+	double *xActual = new double[n]; // Para cambiar los punteros entre si
+	double *xError = new double[n];
+	while(!termino){
+		for(int nFila=0; nFila<n ;nFila++){
+			double suma = 0.0;
+			// sum desde j = 1 hasta n-1 de anj * xj
+			for(int j = 0; j < nFila; j++)
+				suma += a[nFila*n+j] * xAnterior[j];
+
+			//Supongo que la diagonal no es cero
+			xActual[nFila] = (b[nFila] - suma)/a[nFila*n+nFila];
+			xError[nFila] = xActual[nFila] - xAnterior[nFila];
+		}
+		// Calculo el error para saber si se termino de iterar
+		termino = (abs(norma(xError,n)) < rtol);
+		//  Cambio los punteros de lugar para la proxima iteracion,
+		//  sino x queda con el contenido correcto
+		x = xActual;
+		xActual = xAnterior;
+		xAnterior = x;
+		it++;
+	}
+	return it;
+}
+
 //Dados los C_k, h_k los pares de puntos y los h, 
 //imprime todos los polinomios con sus intervalos
 void poly(double *c, double *x, double *y, double *h, int n){
@@ -109,7 +147,7 @@ int main(int argc, char **args){
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
 	
 	//Resuelvo el sistema, teniendo en cuenta que xSist son los C_k, por lo que 'salteo' el primer elemento
-	sor(aSist,xSist+1,bSist,n-1,1.0,0.001);
+	jacobi(aSist,xSist+1,bSist,n-1,0.001);
 	poly(xSist, x, y, h, n);
 	
 	delete []aSist;
