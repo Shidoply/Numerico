@@ -6,6 +6,14 @@ using namespace std;
 #define PADRON1 94950
 #define PADRON2 93410
 
+double norma(double *x, int n){
+	double suma = 0.0;
+	for(int i = 0; i < n; i++){
+		suma += (x[i] * x[i]);
+	}
+	return sqrt(suma);
+}
+
 int cargarDatos(const char *archivo, double *&x, double *&y){
 	int n;
 	ifstream in(archivo);
@@ -44,7 +52,9 @@ void prepararMatriz(double *a, double *h, int n){
 //w la constante de relajación (?) y rtol el error mínimo deseado
 int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	int it=0;
-	while(it<100){ ///Por hacer: reemplazar por cálculo de error en cada iteración
+	bool termino = false;
+	double *xError = new double[n];
+	while(!termino){
 		for(int j=0;j<n;j++){
 			double suma = 0.0;
 			
@@ -52,20 +62,15 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 				if(j!=k)
 					suma += a[j*n+k] * x[k];
 			
+			xError[j] = x[j];
 			//Supongo que la diagonal no es cero
 			x[j] = w*(b[j]-suma)/a[j*n+j] + (1.0-w)*x[j];
+			xError[j] = x[j] - xError[j];
 		}
+		termino = (abs(norma(xError,n)) < rtol);
 		it++;
 	}
 	return it;
-}
-
-double norma(double *x, int n){
-	double suma = 0.0;
-	for(int i = 0; i < n; i++){
-		suma += (x[i] * x[i]);
-	}
-	return sqrt(suma);
 }
 
 int jacobi(double *a, double *x, double *b, int n, double rtol){
@@ -147,7 +152,7 @@ int main(int argc, char **args){
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
 	
 	//Resuelvo el sistema, teniendo en cuenta que xSist son los C_k, por lo que 'salteo' el primer elemento
-	jacobi(aSist,xSist+1,bSist,n-1,0.001);
+	sor(aSist,xSist+1,bSist,n-1,1.0,0.001);
 	poly(xSist, x, y, h, n);
 	
 	delete []aSist;
