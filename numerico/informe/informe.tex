@@ -1,0 +1,61 @@
+%Gran parte de esto lo generó el LyX
+\documentclass[12pt,spanish]{article}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=70pt,rmargin=70pt,headheight=35pt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{graphicx}
+
+%Manejo de notas al pie; Captions en negrita en Figuras y Tablas
+\usepackage[bottom]{footmisc}
+\usepackage[hang,bf]{caption}
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+\begin{document}
+
+%Encabezado
+\lhead{\includegraphics[width=3cm]{logo-facu.jpg}}
+\chead{}
+\rhead{\textsc{Análisis numérico I} - 2do cuatrimestre de 2013\\
+TP Nº1 - Ávila Alterach (94950), Fernandez Lema (93410)}
+
+%Carátula
+\begin{titlepage}
+\thispagestyle{empty} %No poner número de página en título
+
+\begin{center}
+	\includegraphics[width=10cm]{logo-facu-grande.jpg}
+	\vfill
+	
+	\huge{75.12 - Análisis Numérico I} \\
+	\LARGE{Trabajo Práctico Nº1 \\ Resolución de Sistemas de Ecuaciones Lineales}
+	\vfill
+	
+	\normalsize{
+	\begin{tabular}{lll}
+		\textbf{Nombre} & \textbf{Correo electrónico} & \textbf{Padrón} \\ \hline 
+		Gonzalo Ávila Alterach & gonzaloavilaalterach@gmail.com & 94950 \\
+		Nicolás Mariano Fernandez Lema & nicolasfernandezlema@gmail.com & 93410 \\
+	\end{tabular}
+	}
+	\vfill
+		
+	\large{Fecha de entrega: 16 de octubre \\ 2º cuatrimestre de 2013}
+	\vfill
+\end{center}
+\end{titlepage}
+\pagebreak
+
+\section{Resumen}
+El sistema a resolver se trata de $Ax=b$ , siendo A una matriz cuadrada tridiagonal, de dimensiones $(n-1)*(n-1)$.
+El vector incógnita x a averiguar está formado por los elementos $(c_1, c_2, ..., c_{n-1})$, ya que sabiendo los $c_k$ se pueden hallar el resto de los coeficientes de los distintos polinomios.
+Debido a las ecuación 4 y la 7, se puede apreciar que la matriz A es tridiagonal, y sus elementos son lo siguientes:
+Además, debido a que los datos de entrada utilizados la diferencia entre los $\theta _k$consecutivos es constante, la matriz A queda simétrica.
+
+\end{document}
