@@ -10,12 +10,44 @@
 \usepackage{float}
 \usepackage{textcomp}
 \usepackage{graphicx}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
 
 %Manejo de notas al pie; Captions en negrita en Figuras y Tablas
 \usepackage[bottom]{footmisc}
 \usepackage[hang,bf]{caption}
 \usepackage{babel}
 \addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+%Incluir librería para listado código
+\usepackage{xcolor,listings}
+
+\lstset{
+  literate={á}{{a}}1
+           {é}{{e}}1
+           {í}{{i}}1
+           {ó}{{i}}1
+           {ú}{{i}}1
+}
+
+%fuentes y colores
+\lstset{
+ belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\bfseries\color{green!30!black},
+  commentstyle=\itshape\color{purple!30!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+  flexiblecolumns=true,
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=10pt,                   % how far the line-numbers are from the code
+  numberstyle=\footnotesize, % the style that is used for the line-numbers
+  tabsize=4,
+}
 
 \begin{document}
 
@@ -52,10 +84,40 @@ TP Nº1 - Ávila Alterach (94950), Fernandez Lema (93410)}
 \end{titlepage}
 \pagebreak
 
-\section{Resumen}
-El sistema a resolver se trata de $Ax=b$ , siendo A una matriz cuadrada tridiagonal, de dimensiones $(n-1)*(n-1)$.
-El vector incógnita x a averiguar está formado por los elementos $(c_1, c_2, ..., c_{n-1})$, ya que sabiendo los $c_k$ se pueden hallar el resto de los coeficientes de los distintos polinomios.
+\section*{Resumen}
+En este problema, el sistema a resolver se trata de $Ax=b$ , siendo A una matriz cuadrada tridiagonal, de dimensiones $(n-1)^2$.
+
+El vector incógnita $x$ a averiguar está formado por los elementos $(c_1, c_2, ..., c_{n-1})$, ya que sabiendo su valor se pueden hallar el resto de los coeficientes de todos los polinomios.
 Debido a las ecuación 4 y la 7, se puede apreciar que la matriz A es tridiagonal, y sus elementos son lo siguientes:
-Además, debido a que los datos de entrada utilizados la diferencia entre los $\theta _k$consecutivos es constante, la matriz A queda simétrica.
+
+\[
+A_n=
+  \begin{pmatrix}
+   2(h_0+h_1) & h_1 & 0 &  0 & \cdots & 0 & 0 &\\
+   h_1 & 2(h_1+h_2) & h_2 & 0 &  \cdots & 0 & 0 &\\
+   0 & h_2 & 2(h_2+h_3) & h_3  &  \cdots & 0 & 0 &\\
+   \vdots  & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots &\\
+   0 & 0 & 0 & 0 & \cdots & h_{n-1} & 2(h_{n-1}+h_n)\\
+  \end{pmatrix}
+\]
+
+Además, debido a que los datos de entrada utilizados la diferencia entre los $\theta _k$ consecutivos es constante, los $h_k$ también lo son, y por lo tanto la matriz queda simétrica.
+
+Los programas se desarrollaron para resolver matrices genéricas, sin tener en cuenta que los sistemas del problema a resolver son tridiagonales, por lo que es una resolución ineficiente: se esta utilizando más memoria que la necesaria y también se están multiplicando muchas veces ceros por ceros.
+
+\section*{Polinomios encontrados}
+Las soluciones encontradas mediante Jacobi fueron las siguientes:
+
+\section*{Radio espectral de la matriz de Jacobi ($\rho_J$)}
+\section*{Radio espectral de la matriz de Gauss-Seidel ($\rho_{GS}$)}
+\section*{Gráfico de $\omega$ en función de iteraciones hasta convergencia}
+\section*{Gráfico de splines obtenidos}
+\section*{Máxima velocidad de avance}
+\section*{Viviendas alcanzadas por el fuego}
+\section*{Conclusiones}
+
+\newpage
+\section{Código (C++)}
+\lstinputlisting[language=C++,texcl=true]{../tp1.cpp}
 
 \end{document}

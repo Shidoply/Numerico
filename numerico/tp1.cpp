@@ -1,17 +1,25 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <locale>
 using namespace std;
 
 #define PADRON1 94950
 #define PADRON2 93410
 
-double norma(double *x, int n){
+double normaDos(double *x, int n){
 	double suma = 0.0;
 	for(int i = 0; i < n; i++){
 		suma += (x[i] * x[i]);
 	}
 	return sqrt(suma);
+}
+double normaInf(double *x, int n){
+	double maximo = 0.0;
+	for(int i = 0; i < n; i++){
+		maximo = max(maximo, abs(x[i]));
+	}
+	return maximo;
 }
 
 int cargarDatos(const char *archivo, double *&x, double *&y){
@@ -19,13 +27,13 @@ int cargarDatos(const char *archivo, double *&x, double *&y){
 	ifstream in(archivo);
 	if(!in.is_open()) return -1;
 	
-	//Primera lÌnea: cantidad de puntos
+	//Primera l√≠nea: cantidad de puntos
 	in >> n;
 	x = new double[n];
 	y = new double[n];
 	
 	for(int i=0;i<n;i++){
-		in >> x[i] >> y[i]; //Cada lÌnea tiene un par (x,y)
+		in >> x[i] >> y[i]; //Cada l√≠nea tiene un par (x,y)
 		y[i] *= (PADRON1+PADRON2)/(2.0*100000.0);
 	}
 	
@@ -48,8 +56,8 @@ void prepararMatriz(double *a, double *h, int n){
 	}
 }
 
-//Resuelve Ax = b por SOR, Siendo n la dimensiÛn
-//w la constante de relajaciÛn (?) y rtol el error mÌnimo deseado
+//Resuelve Ax = b por SOR, Siendo n la dimensi√≥n
+//w la constante de relajaci√≥n (?) y rtol el error m√≠nimo deseado
 int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	int it=0;
 	bool termino = false;
@@ -67,9 +75,10 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 			x[j] = w*(b[j]-suma)/a[j*n+j] + (1.0-w)*x[j];
 			xError[j] = x[j] - xError[j];
 		}
-		termino = (abs(norma(xError,n)) < rtol);
+		termino = normaInf(xError,n)/normaInf(x,n) <= rtol;
 		it++;
 	}
+	delete []xError;
 	return it;
 }
 
@@ -91,7 +100,7 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 			xError[nFila] = xActual[nFila] - xAnterior[nFila];
 		}
 		// Calculo el error para saber si se termino de iterar
-		termino = (abs(norma(xError,n)) < rtol);
+		termino = normaInf(xError,n)/normaInf(xActual,n) < rtol;
 		//  Cambio los punteros de lugar para la proxima iteracion,
 		//  sino x queda con el contenido correcto
 		x = xActual;
@@ -99,15 +108,19 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 		xAnterior = x;
 		it++;
 	}
+	delete []xError;
+	delete []xActual;
 	return it;
 }
 
-//Dados los C_k, h_k los pares de puntos y los h, 
+//Dados los Ck, hk los pares de puntos y los h, 
 //imprime todos los polinomios con sus intervalos
 void poly(double *c, double *x, double *y, double *h, int n){
+	ofstream outCSV("salida.csv");
+
 	for(int k=0;k<n;k++){
 		double a = y[k];
-		double b = (y[k+1]-y[k])/h[k] - (h[k]/3.0) * (2.0*c[k]+c[k+1]); ///Arreglo temporal
+		double b = (y[k+1]-y[k])/h[k] - (h[k]/3.0) * (2.0*c[k]+c[k+1]);
 		double d = (c[k+1]-c[k])/(3.0*h[k]); 
 		
 		cout << "y = "
@@ -117,7 +130,10 @@ void poly(double *c, double *x, double *y, double *h, int n){
 			 << d << "*(x-"<<x[k]<<")^3"
 			 << " {" << x[k] << ";" << x[k+1] << "}" << endl;
 			 
-		//Al graphmatica no le gusta la notaciÛn 2e5, hay que reemplazarlo por 2*10^5
+		for(int dx=0;dx<h[k];dx++){
+			//Imprimo los valores de los polinomios cada 1¬∫
+			outCSV << dx+x[k] << "\t" << (a + b*dx + c[k]*dx*dx + d*dx*dx*dx) << endl;
+		}		
 	}
 }
 
@@ -151,7 +167,7 @@ int main(int argc, char **args){
 	for(int k=0;k<n-1;k++)
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
 	
-	//Resuelvo el sistema, teniendo en cuenta que xSist son los C_k, por lo que 'salteo' el primer elemento
+	//Resuelvo el sistema, teniendo en cuenta que xSist son los Ck, por lo que 'salteo' el primer elemento
 	sor(aSist,xSist+1,bSist,n-1,1.0,0.001);
 	poly(xSist, x, y, h, n);
 	
