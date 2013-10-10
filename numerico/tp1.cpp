@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include <locale>
 using namespace std;
 
 #define PADRON1 94950
