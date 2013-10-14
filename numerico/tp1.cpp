@@ -61,7 +61,8 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	int it=0;
 	bool termino = false;
 	double *xError = new double[n];
-	while(!termino){
+	double *r = new double[100]; // Para almacenar los errores relativos	
+	while(!termino && it<100){
 		for(int j=0;j<n;j++){
 			double suma = 0.0;
 			
@@ -72,11 +73,17 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 			xError[j] = x[j];
 			//Supongo que la diagonal no es cero
 			x[j] = w*(b[j]-suma)/a[j*n+j] + (1.0-w)*x[j];
-			xError[j] = x[j] - xError[j];
+			xError[j] = x[j] - xError[j]; // El error actual termina siendo el X actual menos el anterior
 		}
-		termino = normaInf(xError,n)/normaInf(x,n) <= rtol;
+		r[it] = normaInf(xError,n)/normaInf(x,n);
+		termino = r[it] <= rtol;
+		
+		if(it != 0)
+			cout << "R_GSS[" << it << "]=" << r[it]/r[it-1] << endl;
+		
 		it++;
 	}
+	delete []r;
 	delete []xError;
 	return it;
 }
@@ -87,7 +94,8 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 	double *xAnterior = x;
 	double *xActual = new double[n]; // Para cambiar los punteros entre si
 	double *xError = new double[n];
-	while(!termino){
+	double *r = new double[100]; // Para almacenar los errores relativos
+	while(!termino && it<100){
 		for(int nFila=0; nFila<n ;nFila++){
 			double suma = 0.0;
 			// sum desde j = 1 hasta n-1 de anj * xj
@@ -99,14 +107,20 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 			xError[nFila] = xActual[nFila] - xAnterior[nFila];
 		}
 		// Calculo el error para saber si se termino de iterar
-		termino = normaInf(xError,n)/normaInf(xActual,n) < rtol;
+		r[it] = normaInf(xError,n)/normaInf(xActual,n);
+		termino = r[it] < rtol;
 		//  Cambio los punteros de lugar para la proxima iteracion,
 		//  sino x queda con el contenido correcto
 		x = xActual;
 		xActual = xAnterior;
 		xAnterior = x;
+		
+		if(it != 0)
+			cout << "R_J[" << it << "]=" << r[it]/r[it-1] << endl;
+
 		it++;
 	}
+	delete []r;
 	delete []xError;
 	delete []xActual;
 	return it;
@@ -138,7 +152,7 @@ void poly(double *c, double *x, double *y, double *h, int n){
 
 int main(int argc, char **args){
 	double *x=NULL, *y=NULL;
-	int n = cargarDatos("d1.csv", x, y)-1;
+	int n = cargarDatos("d4.csv", x, y)-1;
 	if(n<0){
 		cerr << "No se pudo abrir el archivo." << endl;
 		return 1;
@@ -167,8 +181,9 @@ int main(int argc, char **args){
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
 	
 	//Resuelvo el sistema, teniendo en cuenta que xSist son los Ck, por lo que 'salteo' el primer elemento
-	sor(aSist,xSist+1,bSist,n-1,1.0,0.001);
-	poly(xSist, x, y, h, n);
+	jacobi(aSist,xSist+1,bSist,n-1,0.0000001);
+	sor(aSist,xSist+1,bSist,n-1,1.0,0.0000001);
+	//poly(xSist, x, y, h, n);
 	
 	delete []aSist;
 	delete []xSist;
