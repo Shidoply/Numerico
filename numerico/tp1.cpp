@@ -5,8 +5,8 @@
 #include <cstdlib>
 using namespace std;
 
-#define PADRON1 94950
-#define PADRON2 93410
+#define PADRON1 0.94950
+#define PADRON2 0.93410
 
 double normaDos(double *x, int n){
 	double suma = 0.0;
@@ -35,7 +35,7 @@ int cargarDatos(const char *archivo, double *&x, double *&y){
 	
 	for(int i=0;i<n;i++){
 		in >> x[i] >> y[i]; //Cada línea tiene un par (x,y)
-		y[i] *= (PADRON1+PADRON2)/(2.0*100000.0);
+		y[i] *= (PADRON1+PADRON2)/(2.0);
 	}
 	
 	return n;
@@ -63,20 +63,21 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	int it=0;
 	bool termino = false;
 	double *xError = new double[n];
-	double *r = new double[100]; // Para almacenar los errores relativos	
+	double *r = new double[100]; // Para almacenar los errores relativos
 	while(!termino && it<100){
-		for(int j=0;j<n;j++){
+		for(int nFila=0; nFila<n ;nFila++){
 			double suma = 0.0;
-			
-			for(int k=0;k<n;k++)
-				if(j!=k)
-					suma += a[j*n+k] * x[k];
-			
-			xError[j] = x[j];
+			// sum desde j = 1 hasta n-1 de anj * xj
+			for(int j = 0; j < nFila; j++)
+				suma += a[nFila*n+j] * x[j];
+			for(int j = nFila+1; j < nFila; j++)
+				suma += a[nFila*n+j] * x[j];
+			xError[nFila] = x[nFila];
 			//Supongo que la diagonal no es cero
-			x[j] = w*(b[j]-suma)/a[j*n+j] + (1.0-w)*x[j];
-			xError[j] = x[j] - xError[j]; // El error actual termina siendo el X actual menos el anterior
+			x[nFila] = w* ((b[nFila] - suma)/a[nFila*n+nFila]) + (1.0 - w)*x[nFila];
+			xError[nFila] = x[nFila] - xError[nFila];
 		}
+		// Calculo el error para saber si se termino de iterar
 		r[it] = normaInf(xError,n)/normaInf(x,n);
 		termino = r[it] <= rtol;
 		
@@ -89,7 +90,6 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 	delete []xError;
 	return it;
 }
-
 int jacobi(double *a, double *x, double *b, int n, double rtol){
 	int it=0;
 	bool termino = false;
@@ -102,6 +102,8 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 			double suma = 0.0;
 			// sum desde j = 1 hasta n-1 de anj * xj
 			for(int j = 0; j < nFila; j++)
+				suma += a[nFila*n+j] * xAnterior[j];
+			for(int j = nFila+1; j < nFila; j++)
 				suma += a[nFila*n+j] * xAnterior[j];
 
 			//Supongo que la diagonal no es cero
@@ -152,10 +154,16 @@ void poly(double *c, double *x, double *y, double *h, int n){
 	}
 }
 void calcW(double *a, double *x, double *b, int n, double rtol){
+	ofstream outCSV("w-optimo.csv");
 	int maxIter = INT_MAX;
 	float maxIterW;
-	for(float currentW = 0.1; currentW < 1.1; currentW = currentW + 0.1){
+	outCSV << "W\tIteraciones" << endl;
+	outCSV << "Jacobi\t" << jacobi(a,x,b,n,rtol) << endl;
+	for(int k=0;k<n;k++)
+		x[k] = 0;
+	for(float currentW = 0.1; currentW < 1.9; currentW = currentW + 0.01){
 		int currentIter = sor(a,x,b,n,currentW, rtol);
+		outCSV << currentW << "\t" << currentIter << endl;
 		if(currentIter < maxIter){
 			maxIter = currentIter;
 			maxIterW = currentW;
@@ -224,7 +232,7 @@ int main(int argc, char **args){
 		xSist[i] = 0;
 	
 	prepararMatriz(aSist, h, n-1);
-	
+
 	//Preparo el B del sistema
 	for(int k=0;k<n-1;k++)
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
@@ -234,9 +242,9 @@ int main(int argc, char **args){
 		calcW(aSist,xSist+1,bSist,n-1, tol);
 	} else {
 		if(strcmp(func,"jcb") == 0){
-			jacobi(aSist,xSist+1,bSist,n-1, tol);
+			cout << "Iteraciones jacobi: " << jacobi(aSist,xSist+1,bSist,n-1, tol) << endl;
 		} else if(strcmp(func,"sor") == 0){
-			sor(aSist,xSist+1,bSist,n-1,w,tol);
+			cout << "Iteraciones SOR: " << sor(aSist,xSist+1,bSist,n-1,w,tol) << endl;
 		}
 		poly(xSist, x, y, h, n);
 	}
