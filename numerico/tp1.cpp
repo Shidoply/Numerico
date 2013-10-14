@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <string.h>
+#include <cstdlib>
 using namespace std;
 
 #define PADRON1 94950
@@ -135,10 +137,57 @@ void poly(double *c, double *x, double *y, double *h, int n){
 		}		
 	}
 }
-
+void calcW(double *a, double *x, double *b, int n, double rtol){
+	int maxIter = INT_MAX;
+	float maxIterW;
+	for(float currentW = 0.1; currentW < 1.1; currentW = currentW + 0.1){
+		int currentIter = sor(a,x,b,n,currentW, rtol);
+		if(currentIter < maxIter){
+			maxIter = currentIter;
+			maxIterW = currentW;
+		}
+		for(int k=0;k<n;k++)
+			x[k] = 0;
+	}
+	cout << "El w optimo es " << maxIterW << " con " << maxIter << " iteraciones" << endl;
+}
 int main(int argc, char **args){
 	double *x=NULL, *y=NULL;
-	int n = cargarDatos("d1.csv", x, y)-1;
+	char* file;
+	if(strcmp(args[1],"-v") == 0){
+		cout << "Version 1.0";
+		return 1;
+	}
+	if(strcmp(args[1],"-h") == 0){
+		cout << "Comandos: " << endl;
+		cout << "-h: ayuda sobre los comandos" << endl;
+		cout << "-v: version del programa" << endl;
+		cout << "-sor [tol] [file] [w]: se utiliza el metodo sor con el w indicado sobre el archivo indicado con la tolerancia indicada" << endl;
+		cout << "-jcb [tol] [file]: se utiliza el metodo de jacobi sobre el archivo indicado con la tolerancia indicada" << endl;
+		cout << "-g-s [tol] [file]: se utiliza el metodo de gauss-seidel sobre el archivo indicado con la tolerancia indicada" << endl;
+		cout << "-calcW [tol] [file]: se calcula el w optimo para el archivo indicado con la tolerancia indicada" << endl;
+		return 1;
+	}
+	char* func;
+	float w = 0.0;
+	if(strcmp(args[1],"-jcb") == 0){
+		func = "jcb";
+	} else if((strcmp(args[1],"-g-s") == 0) || (strcmp(args[1],"-sor") == 0)){
+		if(strcmp(args[1],"-g-s") == 0){
+			w = 1.0;
+		} else {
+			w = strtof(args[4], NULL);
+		}
+		func = "sor";
+	} else if(strcmp(args[1],"-calcW") == 0) {
+		func = "calcW";
+	} else {
+		cerr << "No se selecciono un comando valido, intenta con -h" << endl;
+		return 1;
+	}
+	float tol = strtof(args[2], NULL);
+	file = args[3];
+	int n = cargarDatos(file, x, y)-1;
 	if(n<0){
 		cerr << "No se pudo abrir el archivo." << endl;
 		return 1;
@@ -167,9 +216,16 @@ int main(int argc, char **args){
 		bSist[k] = (3.0/h[k+1]) * (y[k+2]-y[k+1]) - (3.0/h[k+1]) * (y[k+1]-y[k]);
 	
 	//Resuelvo el sistema, teniendo en cuenta que xSist son los Ck, por lo que 'salteo' el primer elemento
-	sor(aSist,xSist+1,bSist,n-1,1.0,0.001);
-	poly(xSist, x, y, h, n);
-	
+	if(strcmp(func,"calcW") == 0){
+		calcW(aSist,xSist+1,bSist,n-1, tol);
+	} else {
+		if(strcmp(func,"jcb") == 0){
+			jacobi(aSist,xSist+1,bSist,n-1, tol);
+		} else if(strcmp(func,"sor") == 0){
+			sor(aSist,xSist+1,bSist,n-1,w,tol);
+		}
+		poly(xSist, x, y, h, n);
+	}
 	delete []aSist;
 	delete []xSist;
 	delete []bSist;
