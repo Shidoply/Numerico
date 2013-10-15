@@ -118,7 +118,7 @@ Se busca saber si una vivienda en una posicion dada es alcanzada por el fuego.
 Para averiguar esto primero hay que ver en los cuatro dias cuales fueron los radios del fuego en el angulo de la casa, si siempre fueron menores entonces la casa no fue alcanzada por el fuego.
 Si en algun dia el radio del fuego es mayor al de la casa entonces la misma fue alcanzada por el fuego. Para saber en que tiempo fue alcanzada hago una interpolacion lineal con los radios del fuego entre el dia que no fue alcanzada y el dia que fue alcanzada.
 En nuestro caso la casa estaba hubicada en las cordenadas (188°36';94,18) esta casa fue alcanzada por el fuego entre los dias 3, con radio de 73.94222, y el dia 4, con radio de 106.11498.
-Entonces el momento en que fue alcanzado por el fuego es: x = (94,18 - 73.94222)/(106.11498) = 0.629034624
+Entonces el momento en que fue alcanzado por el fuego es: x = (94,18 - 73.94222)/(106.11498 - 73.94222) = 0.629034624
 Expresado en dias y horas la casa fue alcanzada aproximadamente el dia 3 a las 15 hs.
 \section*{Conclusiones}
 
