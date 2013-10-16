@@ -197,9 +197,10 @@ Para evitar tener una curva abierta, se repitió el primer punto. Debido a la no
 \includegraphics[scale=0.7]{../salida/dia4.png}
 
 \section*{Máxima velocidad de avance}
-La velocidad máxima de avance del fuego fue calculada observando la diferencia entre los radios de dos dias consecutivos, y encontrando el ángulo para el cual el radio varía la mayor cantidad (en módulo).
-
-(COMPLETAR)
+La velocidad máxima de avance del fuego fue calculada observando la diferencia entre los radios de dos dias consecutivos, y encontrando el ángulo para el cual el radio varía la mayor cantidad entre el primer y el ultimo dia (en módulo).
+Para esto se hizo un excel con los valores de dichos dias, se calculo la diferencia y se encontro el mayor.
+Esto es a los 205º tubo una diferencia en su radio de aproximadamente 83, con esto podemos decir que la maxima velocidad del incendio es de 21 por dia.
+Su direccion es en el angulo indicado, en nuestro grafico seria al sudoeste, y hacia afuera. 
 
 \section*{Vivienda alcanzada por el fuego}
 Se busca saber si una vivienda en una posicion dada es alcanzada por el fuego.
@@ -228,10 +229,9 @@ Los tipos de errores involucrados son los siguientes:
 
 \newpage
 \appendix
-\section{Polinomios hallados}
 \section{Código (C++)}
 \lstinputlisting[language=C++,texcl=true]{../tp1.cpp}
-\section{Código (Octave/MATLAB)}
+\section{Código para el calculo de W optimo (Octave/MATLAB)}
 \lstinputlisting[language=MATLAB,texcl=true]{../extras/calculoOmegaOptimo.m}
 
 \end{document}
