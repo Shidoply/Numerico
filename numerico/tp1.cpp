@@ -3,6 +3,7 @@
 #include <cmath>
 #include <string.h>
 #include <cstdlib>
+#include <climits>
 using namespace std;
 
 #define PADRON1 0.94950
@@ -70,7 +71,7 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 			// sum desde j = 1 hasta n-1 de anj * xj
 			for(int j = 0; j < nFila; j++)
 				suma += a[nFila*n+j] * x[j];
-			for(int j = nFila+1; j < nFila; j++)
+			for(int j = nFila+1; j < n; j++)
 				suma += a[nFila*n+j] * x[j];
 			xError[nFila] = x[nFila];
 			//Supongo que la diagonal no es cero
@@ -81,8 +82,8 @@ int sor(double *a, double *x, double *b, int n, double w, double rtol){
 		r[it] = normaInf(xError,n)/normaInf(x,n);
 		termino = r[it] <= rtol;
 		
-		if(it != 0)
-			cout << "R_GSS[" << it << "]=" << r[it]/r[it-1] << endl;
+		/*if(it != 0)
+			cout << "R_GSS[" << it << "]=" << r[it]/r[it-1] << endl;*/
 		
 		it++;
 	}
@@ -103,7 +104,7 @@ int jacobi(double *a, double *x, double *b, int n, double rtol){
 			// sum desde j = 1 hasta n-1 de anj * xj
 			for(int j = 0; j < nFila; j++)
 				suma += a[nFila*n+j] * xAnterior[j];
-			for(int j = nFila+1; j < nFila; j++)
+			for(int j = nFila+1; j < n; j++)
 				suma += a[nFila*n+j] * xAnterior[j];
 
 			//Supongo que la diagonal no es cero
