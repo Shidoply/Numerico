@@ -105,8 +105,6 @@ Además, debido a que los datos de entrada utilizados la diferencia entre los $\
 
 Los programas se desarrollaron para resolver matrices genéricas, sin tener en cuenta que los sistemas del problema a resolver son tridiagonales, por lo que es una resolución muy ineficiente: se esta utilizando más memoria que la necesaria y también se están multiplicando muchas veces ceros por ceros.
 
-\section*{Polinomios encontrados}
-Las coeficientes $c_k$ encontrados, así como el resto de los coeficientes de los polinomios están en el apéndice A.
 \section*{Radios espectrales}
 Utilizando la estimación dada, dividir el error relativo de una iteración respecto de la anterior, los radios espectrales son los siguientes:
 
@@ -197,10 +195,12 @@ Para evitar tener una curva abierta, se repitió el primer punto. Debido a la no
 \includegraphics[scale=0.7]{../salida/dia4.png}
 
 \section*{Máxima velocidad de avance}
-La velocidad máxima de avance del fuego fue calculada observando la diferencia entre los radios de dos dias consecutivos, y encontrando el ángulo para el cual el radio varía la mayor cantidad entre el primer y el ultimo dia (en módulo).
-Para esto se hizo un excel con los valores de dichos dias, se calculo la diferencia y se encontro el mayor.
-Esto es a los 205º tubo una diferencia en su radio de aproximadamente 83, con esto podemos decir que la maxima velocidad del incendio es de 21 por dia.
-Su direccion es en el angulo indicado, en nuestro grafico seria al sudoeste, y hacia afuera. 
+La velocidad máxima de avance del fuego fue calculada observando la diferencia entre los radios de dos días consecutivos, y encontrando el ángulo para el cual el radio varía la mayor cantidad entre el primer y el último día (en módulo).
+
+Para esto se hizo una tabla con los valores de dichos días (utilizando un muestreo cada 1º), se calculó el módulo de la diferencia para cada ángulo y se encontró el mayor.
+
+Esto es a los 205º tuvo una diferencia en su radio de aproximadamente 83, con esto podemos decir que la maxima velocidad del incendio fue de 21 por dia.
+Su dirección es en el ángulo indicado, en nuestro gráfico seria al sudoeste, y hacia afuera. 
 
 \section*{Vivienda alcanzada por el fuego}
 Se busca saber si una vivienda en una posicion dada es alcanzada por el fuego.
