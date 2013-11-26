@@ -1,4 +1,0 @@
-A = pi*[(5+2)*100+37]/1000 = 737/1000 pi
-
-Tapprox = 2.00606668071 seg
-Tintegral = 4*sqrt(1/9.81) * integral from 0 to pi/2 (1-sin^2(737/2000pi)*sin^2(x))^(-1/2) dx segun wolfram 3.00871335809

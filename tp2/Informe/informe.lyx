@@ -1,0 +1,462 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage[bottom]{footmisc}
+\usepackage[hang,bf]{caption}
+\end_preamble
+\use_default_options true
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language spanish
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman lmodern
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 70pt
+\topmargin 3cm
+\rightmargin 70pt
+\bottommargin 2cm
+\headheight 35pt
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict true
+\end_header
+
+\begin_body
+
+\begin_layout Left Header
+\begin_inset Graphics
+	filename logo-facu.jpg
+	width 3cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Center Header
+
+\end_layout
+
+\begin_layout Right Header
+
+\noun on
+Análisis numérico 1
+\noun default
+ - 2do cuatrimestre de 2013
+\begin_inset Newline newline
+\end_inset
+
+TP Nº2 - Ávila Alterach (94950), Fernandez Lema (93410)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{titlepage}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename logo-facu-grande.jpg
+	width 10cm
+
+\end_inset
+
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size giant
+75.12 - Análisis Numérico 1
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size largest
+Trabajo práctico Nº2
+\begin_inset Newline newline
+\end_inset
+
+Integración numérica y problemas de valor inicial no lineales 
+\size larger
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Nombre
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Correo electrónico
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Padrón
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+Gonzalo Ávila Alterach
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+gonzaloavilaalterach@gmail.com
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+94950
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+Nicolás Mariano Fernandez Lema
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+nicolasfernandezlema@gmail.com
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size large
+93410
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size large
+Fecha de entrega: 27 de noviembre
+\begin_inset Newline newline
+\end_inset
+
+2º cuatrimestre de 2013
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{titlepage}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Resumen
+\end_layout
+
+\begin_layout Standard
+Se tiene un péndulo ideal, con masa puntual, sin ningún tipo de rozamiento
+ ni pérdida de energía cuyo modelo matemático puede representarse mediante
+ la siguiente ecuación diferencial.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{d^{2}\phi}{dt^{2}}+\frac{g}{L}\sin(\phi)=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se desea obtener su evolución temporal, teniendo en cuenta las condiciones
+ iniciales 
+\begin_inset Formula $\phi(0)=\frac{737}{1000}\pi=A$
+\end_inset
+
+ y 
+\begin_inset Formula $\frac{d\phi}{dt}(0)=0$
+\end_inset
+
+, y que 
+\begin_inset Formula $L=1$
+\end_inset
+
+ y 
+\begin_inset Formula $g=9,81$
+\end_inset
+
+.
+ Es decir, al péndulo se lo suelta con velocidad inicial nula y con un ángulo
+ inicial de 132.7º respecto de la vertical.
+\end_layout
+
+\begin_layout Section*
+Cálculo del período mediante integración numérica
+\end_layout
+
+\begin_layout Standard
+El movimiento del péndulo analizado es periódico, y su período puede calcularse
+ mediante la siguiente integral definida:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $T=\intop_{0}^{\pi/2}4\sqrt{L/G}(1-sen^{2}(A/2)sen^{2}(\varphi))^{-0.5}d\varphi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para calcular dicha integral se usó el método trapecio compuesto, y para
+ lograr 5 dígitos significativos se utilizó un paso de 
+\begin_inset Formula $\frac{\pi}{700}$
+\end_inset
+
+.
+ Para calcular dicho valor se utilizó la fórmula de error global en trapecio:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $E_{g}\leq\frac{(b-a)}{12}h^{2}\frac{d^{2}f}{d\varphi^{2}}(\xi)\leq\frac{\pi}{24}\frac{\pi^{2}}{700^{2}}17\simeq0.000044822\leq0,5\cdot10^{-4}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Siendo 17 una cota superior del módulo de la derivada segunda de la función
+ a integrar.
+ Dicha derivada segunda fue hallada utilizando WolframAlpha, y es la siguiente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{d^{2}f}{dx^{2}}=1.2771((cos((263\pi)/2000)^{2}cos(x)^{2})/(1-cos((263\pi)/2000)^{2}sin(x)^{2})^{3/2}-(cos((263\pi)/2000)^{2}sin(x)^{2})/(1-cos((263\pi)/2000)^{2}*sin(x)^{2})^{3/2}+(3cos((263\pi)/2000)^{4}sin(x)^{2}cos(x)^{2})/(1-cos((263\pi)/2000)^{2}sin(x)^{2})^{5/2}))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Cuyo grafico es el siguiente:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename d2.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se puede apreciar que dentro del intevalo 
+\begin_inset Formula $[0;\pi/2]$
+\end_inset
+
+, la función no toma valores menores que 17.
+\end_layout
+
+\begin_layout Section*
+Cálculo de valores
+\end_layout
+
+\begin_layout Section*
+Dispersión de 
+\begin_inset Formula $\beta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Comparación con Source común
+\end_layout
+
+\begin_layout Section*
+Simulación del circuito
+\end_layout
+
+\begin_layout Section*
+Mediciones del circuito
+\end_layout
+
+\begin_layout Section*
+Conclusiones
+\end_layout
+
+\end_body
+\end_document
